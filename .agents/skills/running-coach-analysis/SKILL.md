@@ -31,17 +31,22 @@ Skill ini digunakan untuk melakukan evaluasi dan analisis komprehensif pasca-ses
 
 ## 2. Profil Atlet & Integrasi Data Intervals.icu
 
+- **Profil Atlet Terdaftar**: **FadhilAlif** (`i655618` | Usia 23 Tahun)
+  - **Antropometri**: Tinggi **180 cm**, Berat **62–64 kg** (BMI 19.4), Postur *Lean Endurance Athlete*.
+  - **Latar Belakang**: Atlet Korfball Daerah + Pelari Jarak Menengah-Jauh.
+  - **Titik Rawan Cedera**: Riwayat keseleo ankle (korfball), gejala IT Band (Long Run), dan Shin Splints. Memerlukan penguatan gluteus medius, stabilitas ankle, dan core McGill Big 3.
+  - **Rutinitas Mingguan**: Kerja 08.00–17.00 WIB (Rabu WFH), Latihan Korfball Selasa & Sabtu/Minggu (18.30–20.30 WIB), Gym 2x seminggu.
+  - **Target Jangka Menengah**: 5K Sub-25m, 10K Sub-55m, Half Marathon Sub-2 Jam (1:59:59), dan bulking bersih menuju 66–68 kg.
+  - *Dokumen Detail*: [docs/ATHLETE-PROFILE-FADHIL.md](file:///c:/Users/5CG4310VL8/.gemini/antigravity/scratch/intervals-icu-mcp/docs/ATHLETE-PROFILE-FADHIL.md).
 - **Identitas & Parameter Fisiologis**: Diekstrak secara dinamis via Intervals.icu MCP:
-  - `CP / FTP`: dari objek aktivitas (`icu_ftp`) atau `get_athlete_profile`.
-  - `LTHR & Max HR`: dari `lthr` dan `athlete_max_hr`.
-  - `Resting HR`: dari `icu_resting_hr` atau `get_wellness_data`.
-  - `Berat Badan`: dari `icu_weight` atau `get_wellness_data`.
-- **Perangkat**: GPS Running Watch dengan sensor daya lari (*Running Power*) | **Platform Analisis**: Intervals.icu
+  - `CP / FTP`: dari objek aktivitas (`icu_ftp`, aktif **241 W**) atau `get_athlete_profile`.
+  - `LTHR & Max HR`: dari `lthr` (**179 bpm**) dan `athlete_max_hr` (**204 bpm**).
+  - `Resting HR`: dari `icu_resting_hr` (**48–50 bpm**) atau `get_wellness_data`.
+  - `Berat Badan`: dari `icu_weight` (**63 kg**) atau `get_wellness_data`.
+- **Perangkat**: GPS Running Watch Garmin Forerunner 165 | **Platform Analisis**: Intervals.icu
 - **Target Kompetisi & Sweet Spot NSA (§5.1)**:
   - Rentang jarak **5K hingga Half Marathon adalah sweet spot utama Norwegian Singles** di mana metode ini terbukti paling sukses untuk pelari rekreasional.
   - Target Half Marathon **TIDAK memerlukan** adaptasi maraton berat (§5.4) seperti Long Run 2–3 jam atau blok tempo di dalam LR. Long Run 75–90 menit murni easy sudah sepenuhnya optimal.
-- **Pola Tapering (10–14 Hari)**:
-  - Pengurangan volume terencana 10–14 hari menjelang perlombaan (volume mingguan dipotong ke ~75% lalu ~50%, frekuensi lari dipertahankan, dan repetisi Sub-T dipotong ~30–50% untuk menjaga ketajaman neuromuskular tanpa akumulasi fatigue).
 - **Filosofi Latihan**: *Pure Norwegian Singles* — Membangun kapasitas aerobik maksimum melalui frekuensi tinggi sesi *sub-threshold* terkontrol dengan pemulihan aerobik murni.
 
 ### Contoh Strategi Rotasi Sepatu (Shoe Rotation Strategy)

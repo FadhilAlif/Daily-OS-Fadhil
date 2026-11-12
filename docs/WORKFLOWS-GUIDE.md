@@ -1,7 +1,7 @@
 # 📖 Panduan Penggunaan AI Skills & Workflows (Slash Commands Guide)
 _Intervals.icu MCP Server & Norwegian Singles Running Coach_
 
-Dokumen ini memuat panduan komprehensif mengenai **kapan dan bagaimana** menggunakan ke-13 AI Skills (Slash Commands) yang tersedia di dalam ekosistem `intervals-icu-mcp` berbasis **Norwegian Singles Training Method** (`docs/references/norwegian-singles/`).
+Dokumen ini memuat panduan komprehensif mengenai **kapan dan bagaimana** menggunakan ke-14 AI Skills (Slash Commands) yang tersedia di dalam ekosistem `intervals-icu-mcp` berbasis **Norwegian Singles Training Method** (`docs/references/norwegian-singles/`).
 
 ---
 
@@ -42,7 +42,7 @@ graph TD
 
 ---
 
-## 📋 Direktori 13 Slash Commands & Waktu Penggunaan
+## 📋 Direktori 14 Slash Commands & Waktu Penggunaan
 
 | No | Slash Command | Berkas Skill | Timeline Penggunaan | Tujuan Utama | Kebutuhan Input Pengguna |
 |:--:|---|---|---|---|---|
@@ -59,6 +59,7 @@ graph TD
 | **11**| **`/predict-race`** | [`SKILL.md`](../.agents/skills/predict-race/SKILL.md) | **10–14 Hari Menjelang Lomba** | Prediksi waktu finish, jadwal A-Tapering, dan reassurance jarak 5K–HM sebagai sweet spot NSA (§5.1). | Jarak race, VDOT, tanggal race. |
 | **12**| **`/race-strategy`** | [`SKILL.md`](../.agents/skills/race-strategy/SKILL.md) | **Race Week & Pagi Race Day** | Eksekusi race day lengkap: pacing split berbasis Critical Power (% CP), timing intake energy gel EJ Sport (30g carb), dan batas hidrasi tropis. | Target jarak/race, estimasi waktu/pace. |
 | **13**| **`/strength-guide`** | [`SKILL.md`](../.agents/skills/strength-guide/SKILL.md) | **2x Seminggu (Hari Q: Selasa & Jumat Sore)** | Panduan sesi latihan kekuatan fungsional (20–25m) berbasis Steve Magness dan McGill Big 3 untuk pelari. | Opsional: fokus area/fase (misal `taper`, `mcgill`). |
+| **14**| **`/bulk-plan`** | [`SKILL.md`](../.agents/skills/bulk-plan/SKILL.md) | **Setiap Hari Minggu & Evaluasi Harian** | Perencanaan clean bulking pelari (61–64 kg ke 66–68 kg), kalori dinamis lari + kantor Jakarta, 2x liquid booster, dan gym upper hypertrophy + lower neural. | Opsional: target BB / surplus (misal `/bulk-plan target=68kg`). |
 
 ---
 
@@ -147,4 +148,5 @@ Digunakan saat fase puncak persiapan lomba hingga pagi hari race:
 🏆 10-14 Hari Dekat Lomba      ➔  /predict-race
 ⚡ Taktis & Fueling Race Day   ➔  /race-strategy
 🏋️ Sesi Latihan Kekuatan       ➔  /strength-guide
+🥗 Rencana Bulking & Kalori     ➔  /bulk-plan
 ```

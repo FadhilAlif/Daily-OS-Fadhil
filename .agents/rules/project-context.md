@@ -2,7 +2,7 @@
 _Last updated: 2026-09-12_
 
 ## Project Overview
-Server **Model Context Protocol (MCP)** resmi untuk Intervals.icu API sekaligus sistem **AI Running Coach Intelligence** berbasis **Norwegian Singles Training Method** (`docs/references/norwegian-singles/`). Mengekspos **33 MCP tools** ke AI assistant (Claude Desktop, Antigravity, Cursor, VS Code Cline/Roo-Code) untuk membaca telemetri aktivitas real-time, mengevaluasi beban latihan kronis dan berkelanjutan (CTL/ATL/TSB/ACWR), menghitung estimasi ambang sub-threshold & VDOT, menganalisis cardiac drift & aerobic decoupling, memprediksi waktu race & tapering 10–14 hari, serta mempublikasikan sesi latihan terstruktur langsung ke kalender Intervals.icu via Teks DSL.
+Server **Model Context Protocol (MCP)** resmi untuk Intervals.icu API sekaligus sistem **AI Running Coach Intelligence** berbasis **Norwegian Singles Training Method** (`docs/references/norwegian-singles/`). Mengekspos **37 MCP tools** ke AI assistant (Claude Desktop, Antigravity, Cursor, VS Code Cline/Roo-Code) untuk membaca telemetri aktivitas real-time, mengevaluasi beban latihan kronis dan berkelanjutan (CTL/ATL/TSB/ACWR), menghitung estimasi ambang sub-threshold & VDOT, menganalisis cardiac drift & aerobic decoupling, memprediksi waktu race & tapering 10–14 hari, serta mempublikasikan sesi latihan terstruktur langsung ke kalender Intervals.icu via Teks DSL.
 
 ## Tech Stack
 | Category | Library / Tool | Version | Notes |
@@ -14,7 +14,7 @@ Server **Model Context Protocol (MCP)** resmi untuk Intervals.icu API sekaligus 
 | Validation | `zod` | `^4.4.3` | Schema validation pada semua tool boundary |
 | Package Manager | `pnpm` | — | Dikelola via `pnpm-lock.yaml` |
 | Build Tool | TypeScript Compiler (`tsc`) | `^5.7.2` | Output ke direktori `dist/` |
-| Test Framework | Vitest | `^4.1.10` | 89 unit tests across 19 test files (100% pass) |
+| Test Framework | Vitest | `^4.1.10` | 94 unit tests across 20 test files (100% pass) |
 
 ## Architecture & Design Patterns
 Arsitektur **fungsional + domain-layered** tanpa framework HTTP server tambahan. Entry point (`src/index.ts`) menginisialisasi MCP server via `stdio` transport dan mendaftarkan 10 domain tool modules.
@@ -45,13 +45,14 @@ Arsitektur **fungsional + domain-layered** tanpa framework HTTP server tambahan.
 ```text
 intervals-icu-mcp/
 ├── .agents/                      # Konfigurasi AI Agent (Antigravity & Subagents)
-│   ├── README.md                 # Panduan arsitektur & direktori 15 skills NSA & Strength
+│   ├── README.md                 # Panduan arsitektur & direktori 16 skills NSA & Strength
 │   ├── rules/                    # Context memory & persistent rules
 │   │   ├── norwegian-singles-guardrails.md # Invariant guardrails metodologi NSA & batas fisiologis
 │   │   └── project-context.md    # Single source of truth context file (file ini)
-│   └── skills/                   # 15 specialized agent skills (Pure Norwegian Singles & Strength)
+│   └── skills/                   # 16 specialized agent skills (Pure Norwegian Singles & Strength)
 │       ├── calc-nsa/             # /calc-nsa (matriks interval Time-Based 1m s.d. 15m)
 │       ├── calc-vdot/            # /calc-vdot (VDOT & penetapan ambang sub-T)
+│       ├── bulk-plan/            # /bulk-plan (clean bulking pelari & upper hypertrophy gym)
 │       ├── cardiac-drift/        # /cardiac-drift (aerobic decoupling & EF telemetry)
 │       ├── check-workout/        # /check-workout (inspeksi kalender & planned sessions)
 │       ├── create-workout/       # /create-workout (publikasi DSL workout ke kalender)
@@ -72,7 +73,7 @@ intervals-icu-mcp/
 │   │   └── norwegian-singles/    # Data referensi & dataset literatur norwegiansingles.run
 │   └── specs/                    # Design documents & RFCs
 ├── src/                          # TypeScript source code
-│   ├── tools/                    # 10 domain tool handler modules (33 tools total)
+│   ├── tools/                    # 10 domain tool handler modules (37 tools total)
 │   │   ├── activities.ts         # 6 tools: get_activities, get_activity_*, add_activity_message
 │   │   ├── athlete.ts            # 2 tools: get_athlete_profile, get_training_zones
 │   │   ├── calculator.ts         # 2 tools: calculate_vdot, calculate_pace_zones
@@ -103,7 +104,7 @@ intervals-icu-mcp/
 └── vitest.config.ts              # Konfigurasi Vitest runner
 ```
 
-## Complete MCP Tools Directory (33 Tools)
+## Complete MCP Tools Directory (37 Tools)
 | Domain | Tool Name | Description |
 |---|---|---|
 | **Activities** | `get_activities` | Ambil daftar aktivitas latihan dalam rentang tanggal |
@@ -134,6 +135,8 @@ intervals-icu-mcp/
 | | `calculate_taper_plan` | Pola tapering 10-14 hari (A-Taper NSA volume -35% lalu -50%) |
 | | `analyze_cardiac_drift` | Hitung Aerobic Decoupling (EF paruh 1 vs paruh 2) dari stream data |
 | | `calculate_readiness_score`| Skor kesiapan komposit 0-100% (TSB, ACWR, Sleep, RHR Spike) |
+| | `calculate_race_fueling` | Strategi nutrisi race (gel 30g carb), hidrasi tropis, & pacing CP |
+| | `calculate_bulking_plan` | Kalori dinamis lari+kantor, makro, power-to-weight, & preset gym upper hypertrophy |
 | **Load & Periodization**| `analyze_training_load` | Evaluasi CTL, ATL, TSB, Ramp Rate, & rasio ACWR |
 | | `calculate_weekly_budget` | Hitung budget mingguan berbasis durasi/load |
 | **Power Curves** | `get_athlete_power_curves` | Power duration curve kurva daya lari/sepeda (cache 60m) |
@@ -146,7 +149,7 @@ intervals-icu-mcp/
 | `pnpm run build` | Build | Kompilasi TypeScript via `tsc` ke direktori `dist/` |
 | `pnpm run dev` | Dev (Watch) | Menjalankan `tsc --watch` untuk auto-compile saat file berubah |
 | `pnpm run start` | Start | Menjalankan MCP server melalui Node.js (`dist/index.js`) |
-| `pnpm test` | Test Suite | Menjalankan Vitest (89 test cases di 19 test files) |
+| `pnpm test` | Test Suite | Menjalankan Vitest (94 test cases di 20 test files) |
 | `pnpm run inspector`| Debug MCP | Menjalankan `@modelcontextprotocol/inspector` untuk inspeksi UI tools |
 
 ## Environment Variables

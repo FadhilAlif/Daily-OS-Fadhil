@@ -2,6 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
 import { analyzeCardiacDrift } from "../utils/drift.js";
+import { calculateBulkingPlan } from "../utils/bulking.js";
 import { calculateRaceFuelingPlan } from "../utils/fueling.js";
 import { calculateTaperPlan, predictRaceTime } from "../utils/race.js";
 import { calculateReadinessScore } from "../utils/readiness.js";
@@ -101,6 +102,48 @@ export function registerIntelligenceTools(server: McpServer): void {
       return {
         content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
       };
+    }
+  );
+
+  // 6. calculate_bulking_plan
+  server.tool(
+    "calculate_bulking_plan",
+    "Menghitung target kalori harian dinamis (BMR + NEAT kantor + kalori lari/gym), makronutrisi (protein 2.1 g/kg, lemak 1.1 g/kg, karbo sisa), Power-to-Weight guardrail, struktur 5 meal Jakarta (3 solid + 2 liquid booster), dan sesi gym Upper Hypertrophy + Lower Neural untuk lean bulking pelari.",
+    {
+      weightKg: z.number().positive().describe("Berat badan atlet terkini dalam kg (contoh: 63)."),
+      heightCm: z.number().positive().optional().describe("Tinggi badan dalam cm (default: 180)."),
+      age: z.number().positive().optional().describe("Usia dalam tahun (default: 23)."),
+      gender: z.enum(["male", "female"]).optional().describe("Jenis kelamin (default: male)."),
+      criticalPowerWatts: z.number().positive().optional().describe("Critical Power lari dalam Watt (default: 241)."),
+      dayType: z
+        .enum(["REST", "EASY_RUN", "QUALITY_SUB_T", "LONG_RUN"])
+        .optional()
+        .describe("Tipe hari latihan lari. Default REST."),
+      dailyRunningBurnKcal: z
+        .number()
+        .nonnegative()
+        .optional()
+        .describe("Kalori lari aktual hari itu dari Intervals.icu (kkal). Jika kosong, diestimasi dari dayType."),
+      gymSessionPlanned: z.boolean().optional().describe("True jika ada sesi gym hari itu. Default false."),
+      gymSessionCode: z
+        .enum(["GYM_A", "GYM_B", "GYM_C"])
+        .optional()
+        .describe("Pilih preset sesi gym: GYM_A (Push + Neural), GYM_B (Pull + Pelvic), GYM_C (Arms & Upper Pump)."),
+      targetSurplusKcal: z.number().optional().describe("Surplus kalori harian (default: 400 kkal)."),
+      targetWeightKg: z.number().positive().optional().describe("Target berat badan akhir (default: 67 kg)."),
+    },
+    async (input) => {
+      try {
+        const result = calculateBulkingPlan(input);
+        return {
+          content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+        };
+      } catch (err) {
+        return {
+          isError: true,
+          content: [{ type: "text", text: err instanceof Error ? err.message : String(err) }],
+        };
+      }
     }
   );
 }

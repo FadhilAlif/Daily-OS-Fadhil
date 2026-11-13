@@ -1,6 +1,6 @@
-import { calculateRetryDelay } from "@engine/utils/retry";
 import { calculateReadinessScore } from "@engine/utils/readiness";
 import { todayJakarta } from "@/lib/date";
+import { intervalsApiRequest } from "./intervals-client";
 import { getPrimaryAthlete } from "../repositories/athlete.repo";
 
 interface IntervalsSportSetting {
@@ -31,37 +31,7 @@ interface IntervalsWellnessRecord {
 }
 
 async function fetchIntervalsJson<T>(endpointPath: string): Promise<T> {
-  const apiKey = process.env.INTERVALS_API_KEY;
-  if (!apiKey) {
-    throw new Error("INTERVALS_API_KEY belum dikonfigurasi di .env.local");
-  }
-  const baseUrl = process.env.INTERVALS_API_BASE_URL || "https://intervals.icu/api/v1";
-  const auth = Buffer.from(`API_KEY:${apiKey}`).toString("base64");
-
-  for (let attempt = 0; attempt < 3; attempt++) {
-    const res = await fetch(`${baseUrl}${endpointPath}`, {
-      headers: {
-        Authorization: `Basic ${auth}`,
-        Accept: "application/json",
-      },
-      cache: "no-store",
-    });
-
-    if (res.status === 429 && attempt < 2) {
-      const retryAfter = Number(res.headers.get("Retry-After") || "1");
-      const delayMs = calculateRetryDelay(attempt, retryAfter);
-      await new Promise((r) => setTimeout(r, delayMs));
-      continue;
-    }
-
-    if (!res.ok) {
-      throw new Error(`Intervals.icu HTTP ${res.status}: ${res.statusText}`);
-    }
-
-    return (await res.json()) as T;
-  }
-
-  throw new Error("Intervals.icu rate limit (HTTP 429) setelah retry");
+  return intervalsApiRequest<T>(endpointPath);
 }
 
 export async function pullProfileFromIntervalsIcu(overrideIntervalsId?: string) {

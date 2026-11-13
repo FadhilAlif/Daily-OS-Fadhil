@@ -19,12 +19,14 @@ const GLOW_CLASSES: Record<CardGlow, string> = {
 };
 
 export function Card({
+  id,
   title,
   right,
   glow = "none",
   className = "",
   children,
 }: {
+  id?: string;
   title?: string;
   right?: React.ReactNode;
   glow?: CardGlow;
@@ -33,6 +35,7 @@ export function Card({
 }) {
   return (
     <section
+      id={id}
       className={`relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#14161d]/90 p-4 shadow-lg shadow-black/30 ${GLOW_CLASSES[glow]} ${className}`}
     >
       {(title || right) && (

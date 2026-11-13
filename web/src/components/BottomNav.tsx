@@ -46,6 +46,7 @@ export function BottomNav() {
 
         <div className="flex items-center justify-center">
           <button
+            id="tour-fab-button"
             type="button"
             onClick={openLogModal}
             aria-label="Catat log nutrisi dan latihan"

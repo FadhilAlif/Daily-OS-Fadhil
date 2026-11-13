@@ -177,6 +177,7 @@ export function ReadinessCard({
 
   return (
     <Card
+      id="tour-cockpit-hero"
       title="Readiness & Telemetry"
       glow="lime"
       right={

@@ -112,6 +112,7 @@ export default function BulkingPage() {
       </div>
 
       <Card
+        id="tour-workout-hero"
         title="Power-to-Weight Guardrail"
         glow="lime"
         right={

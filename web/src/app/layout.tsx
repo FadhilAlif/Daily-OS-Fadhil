@@ -3,6 +3,8 @@ import "./globals.css";
 import { AppDataProvider } from "@/components/AppDataProvider";
 import { Header } from "@/components/Header";
 import { BottomNav } from "@/components/BottomNav";
+import { TourProvider } from "@/components/tour/TourContext";
+import { ProductTourOverlay } from "@/components/tour/ProductTourOverlay";
 
 export const metadata: Metadata = {
   title: "Daily Athlete OS",
@@ -23,9 +25,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="id">
       <body className="min-h-dvh">
         <AppDataProvider>
-          <Header />
-          <main className="max-w-md mx-auto px-4 pt-4 pb-24 space-y-4">{children}</main>
-          <BottomNav />
+          <TourProvider>
+            <Header />
+            <main className="max-w-md mx-auto px-4 pt-4 pb-24 space-y-4">{children}</main>
+            <BottomNav />
+            <ProductTourOverlay />
+          </TourProvider>
         </AppDataProvider>
       </body>
     </html>

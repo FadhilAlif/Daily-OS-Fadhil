@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { SlidersHorizontal } from "lucide-react";
+import { HelpCircle, SlidersHorizontal } from "lucide-react";
 import { useAppData } from "@/components/AppDataProvider";
+import { useProductTour } from "@/components/tour/TourContext";
 import { READINESS_STYLES } from "@/lib/constants";
 import type { ReadinessStatus } from "@/lib/types";
 
@@ -14,6 +15,7 @@ function getInitials(name: string): string {
 
 export function Header() {
   const { athlete, readiness } = useAppData();
+  const { startTour } = useProductTour();
   const status: ReadinessStatus = readiness?.status ?? "GREEN";
   const styles = READINESS_STYLES[status];
   const fullName = athlete?.fullName ?? "Daily Athlete";
@@ -44,14 +46,25 @@ export function Header() {
           </div>
         </div>
 
-        <Link
-          href="/onboarding"
-          aria-label="Atur profil atlet"
-          className="relative h-10 w-10 shrink-0 rounded-full bg-[#14161d] border border-white/[0.08] flex items-center justify-center text-zinc-300 hover:text-lime-400 hover:border-lime-400/40 transition-colors"
-        >
-          <SlidersHorizontal className="w-4 h-4" />
-          <span className="absolute top-2 right-2.5 h-1.5 w-1.5 rounded-full bg-lime-400" />
-        </Link>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={startTour}
+            aria-label="Lihat panduan aplikasi"
+            title="Lihat panduan aplikasi"
+            className="h-10 w-10 rounded-full bg-[#14161d] border border-white/[0.08] flex items-center justify-center text-zinc-300 hover:text-lime-400 hover:border-lime-400/40 transition-colors"
+          >
+            <HelpCircle className="w-4 h-4" />
+          </button>
+          <Link
+            href="/onboarding"
+            aria-label="Atur profil atlet"
+            className="relative h-10 w-10 shrink-0 rounded-full bg-[#14161d] border border-white/[0.08] flex items-center justify-center text-zinc-300 hover:text-lime-400 hover:border-lime-400/40 transition-colors"
+          >
+            <SlidersHorizontal className="w-4 h-4" />
+            <span className="absolute top-2 right-2.5 h-1.5 w-1.5 rounded-full bg-lime-400" />
+          </Link>
+        </div>
       </div>
     </header>
   );

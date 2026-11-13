@@ -17,3 +17,18 @@ export function shiftIsoDate(isoDate: string, days: number): string {
 export function toLogNo(isoDate: string): string {
   return `LOG-${isoDate.replaceAll("-", "")}`;
 }
+
+/** Finds the Monday (YYYY-MM-DD) of the week containing `isoDate`. */
+export function getMondayOfIso(isoDate: string): string {
+  const d = new Date(`${isoDate}T00:00:00Z`);
+  const day = d.getUTCDay(); // 0 is Sunday, 1 is Monday
+  const diff = day === 0 ? -6 : 1 - day;
+  return shiftIsoDate(isoDate, diff);
+}
+
+/** Finds the next upcoming Monday (YYYY-MM-DD) strictly after `isoDate`. */
+export function getNextMondayOfIso(isoDate: string): string {
+  const thisMonday = getMondayOfIso(isoDate);
+  return shiftIsoDate(thisMonday, 7);
+}
+

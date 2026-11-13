@@ -15,3 +15,16 @@ dist/
 # MacOS Files
 .DS_Store
 
+
+# Next.js
+.next/
+next-env.d.ts
+*.tsbuildinfo
+web/AGENTS.md
+
+# AI internal tracking & specs
+docs/PROGRESS.md
+docs/superpowers/
+design/
+
+

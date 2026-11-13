@@ -1,0 +1,10 @@
+{
+  "name": "Daily Athlete OS",
+  "short_name": "Athlete OS",
+  "description": "Norwegian Singles + clean bulking daily cockpit",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "icons": []
+}

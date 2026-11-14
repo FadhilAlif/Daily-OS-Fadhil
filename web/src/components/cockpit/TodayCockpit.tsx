@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAppData } from "@/components/AppDataProvider";
+import { Activity, RefreshCw } from "lucide-react";
 import { RedFlags } from "@/components/RedFlags";
 import { Card } from "@/components/ui";
 import { LogHistoryCard } from "@/components/cockpit/LogHistoryCard";
@@ -37,6 +38,29 @@ export function TodayCockpit() {
   );
 
   const exportUrl = `/api/daily-logs/export?startDate=${startDate}&endDate=${today}`;
+  const [syncingActivities, setSyncingActivities] = useState(false);
+  const [syncFeedback, setSyncFeedback] = useState<string | null>(null);
+
+  async function handleSyncActivities() {
+    setSyncingActivities(true);
+    setSyncFeedback(null);
+    try {
+      const res = await fetch("/api/telemetry/sync-activities?days=3", {
+        method: "POST",
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.message || "Gagal sinkronisasi");
+      setSyncFeedback(
+        `Sukses: ${json.totalRunsFound} lari ditemukan, ${json.syncedDates.length} hari diperbarui.`,
+      );
+      reload();
+      refresh();
+    } catch (err) {
+      setSyncFeedback(err instanceof Error ? err.message : "Error saat sync");
+    } finally {
+      setSyncingActivities(false);
+    }
+  }
 
   return (
     <>
@@ -46,6 +70,27 @@ export function TodayCockpit() {
         today={today}
         loggedDates={loggedDates}
       />
+
+      <div className="flex items-center justify-between px-1">
+        <span className="text-[11px] font-semibold tracking-wide text-zinc-400">
+          Aktivitas Intervals.icu
+        </span>
+        <button
+          type="button"
+          onClick={handleSyncActivities}
+          disabled={syncingActivities}
+          className="text-xs font-bold text-lime-400 hover:text-lime-300 disabled:opacity-50 flex items-center gap-1.5 transition-colors"
+        >
+          <RefreshCw className={`w-3.5 h-3.5 ${syncingActivities ? "animate-spin" : ""}`} />
+          {syncingActivities ? "Menyinkronkan..." : "Sync Aktivitas"}
+        </button>
+      </div>
+
+      {syncFeedback && (
+        <div className="rounded-2xl border border-lime-400/20 bg-lime-400/10 px-3 py-2 text-[11px] text-lime-300">
+          {syncFeedback}
+        </div>
+      )}
 
       {athlete?.athleteId ? (
         <TodayNutritionCard

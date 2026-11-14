@@ -24,6 +24,8 @@ export function BottomNav() {
   const pathname = usePathname();
   const { openLogModal } = useAppData();
 
+  if (pathname === "/login") return null;
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/[0.08] bg-[#0e1016]/95 backdrop-blur-xl">
       <div className="max-w-md mx-auto grid grid-cols-5 items-center h-16 px-2">

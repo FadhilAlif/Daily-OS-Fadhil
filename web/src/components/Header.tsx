@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { HelpCircle, SlidersHorizontal } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { HelpCircle, LogOut, SlidersHorizontal } from "lucide-react";
 import { useAppData } from "@/components/AppDataProvider";
 import { useProductTour } from "@/components/tour/TourContext";
 import { READINESS_STYLES } from "@/lib/constants";
@@ -14,11 +15,14 @@ function getInitials(name: string): string {
 }
 
 export function Header() {
+  const pathname = usePathname();
   const { athlete, readiness } = useAppData();
   const { startTour } = useProductTour();
   const status: ReadinessStatus = readiness?.status ?? "GREEN";
   const styles = READINESS_STYLES[status];
   const fullName = athlete?.fullName ?? "Daily Athlete";
+
+  if (pathname === "/login") return null;
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#0b0c10]/85 backdrop-blur-xl px-4 py-3">
@@ -47,6 +51,15 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={() => fetch("/api/auth/logout", { method: "POST" }).then(() => window.location.assign("/login"))}
+            aria-label="Keluar dari aplikasi"
+            title="Keluar"
+            className="h-10 w-10 rounded-full bg-[#14161d] border border-white/[0.08] flex items-center justify-center text-zinc-300 hover:text-rose-400 hover:border-rose-400/40 transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
           <button
             type="button"
             onClick={startTour}

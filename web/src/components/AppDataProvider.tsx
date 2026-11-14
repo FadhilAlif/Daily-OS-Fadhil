@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 import type { BulkingPlanResult } from "@engine/utils/bulking";
 import { CreateLogModal } from "@/components/log/LogDialogs";
 import { useRemoteData } from "@/lib/hooks/useRemoteData";
@@ -22,8 +23,12 @@ const AppDataContext = createContext<AppData | null>(null);
 
 /** Loads athlete profile + readiness once and shares them across the whole app shell. */
 export function AppDataProvider({ children }: { children: React.ReactNode }) {
-  const athleteQuery = useRemoteData<AthleteResponse>("/api/athletes");
-  const readinessQuery = useRemoteData<ReadinessView>("/api/telemetry/readiness");
+  const pathname = usePathname();
+  const isLoginRoute = pathname === "/login";
+  const athleteQuery = useRemoteData<AthleteResponse>(isLoginRoute ? null : "/api/athletes");
+  const readinessQuery = useRemoteData<ReadinessView>(
+    isLoginRoute ? null : "/api/telemetry/readiness",
+  );
   const [logModalOpen, setLogModalOpen] = useState(false);
   const [logsVersion, setLogsVersion] = useState(0);
 

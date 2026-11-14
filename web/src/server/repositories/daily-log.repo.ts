@@ -99,6 +99,27 @@ export async function getDailyLogByNo(logNo: string) {
   return header ?? null;
 }
 
+export async function createDailyLogHeaderOnly(
+  headerInput: CreateDailyLogHeaderInput,
+) {
+  const db = getDb();
+  const [createdHeader] = await db
+    .insert(dailyLogHeader)
+    .values({
+      logNo: headerInput.logNo,
+      logDate: headerInput.logDate,
+      athleteId: headerInput.athleteId,
+      dayType: headerInput.dayType,
+      gymSessionCode: headerInput.gymSessionCode,
+      morningWeightKg: headerInput.morningWeightKg.toFixed(2),
+      runningBurnKcal: headerInput.runningBurnKcal,
+      targetSurplusKcal: headerInput.targetSurplusKcal,
+      remarks: headerInput.remarks ?? null,
+    })
+    .returning();
+  return createdHeader;
+}
+
 export async function createDailyLogAtomic(
   headerInput: CreateDailyLogHeaderInput,
   itemsInput: CreateDailyLogItemInput[]

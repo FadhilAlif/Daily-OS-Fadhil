@@ -22,8 +22,17 @@ interface ErrorBody {
 export async function apiRequest<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {
     ...init,
+    credentials: "same-origin",
     headers: { "Content-Type": "application/json", ...init?.headers },
   });
+
+  if (
+    response.status === 401 &&
+    typeof window !== "undefined" &&
+    !window.location.pathname.startsWith("/login")
+  ) {
+    window.location.replace("/login");
+  }
   const body: unknown = await response.json().catch(() => null);
   const errorBody = (body ?? {}) as ErrorBody;
 

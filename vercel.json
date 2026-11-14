@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "cd web && pnpm run build",
+  "outputDirectory": "web/.next",
+  "installCommand": "pnpm install",
+  "crons": [
+    {
+      "path": "/api/cron/sync-activities",
+      "schedule": "0 10 * * *"
+    }
+  ]
+}
